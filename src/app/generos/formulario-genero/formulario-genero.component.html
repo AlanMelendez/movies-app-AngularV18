@@ -1,0 +1,35 @@
+<form (submit)="guardarCambios()" [formGroup]="formGroupLocal">
+
+  <mat-form-field appearance="outline" style="margin-bottom: 5px;">
+    <mat-label>Nombre</mat-label>
+    <input matInput placeholder="Nombre" formControlName="nombre">
+
+    @if (formGroupLocal.controls.nombre.hasError('required')) {
+      <mat-error  >
+        El nombre es requerido
+      </mat-error>
+    }
+    @if (formGroupLocal.controls.nombre.hasError('primeraLetraMayuscula')) {
+      <mat-error  >
+        {{formGroupLocal.controls.nombre.getError('primeraLetraMayuscula').mensaje}}
+      </mat-error>
+    }
+
+
+  </mat-form-field>
+
+  <div>
+    <button [disabled]="formGroupLocal.controls.nombre.invalid" mat-flat-button type="submit">Guardar cambios</button>
+    <a mat-stroked-button routerLink="/generos">Cancelar</a>
+  </div>
+
+  <!-- <mat-form-field>
+    <input matInput placeholder="Nombre" formControlName="nombre">
+    <mat-error *ngIf="formGroupLocal.get('nombre').hasError('required')">
+      El nombre es requerido
+    </mat-error>
+  </mat-form-field> -->
+
+
+
+</form>

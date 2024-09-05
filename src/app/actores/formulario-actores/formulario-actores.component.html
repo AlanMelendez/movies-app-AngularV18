@@ -1,0 +1,35 @@
+<form [formGroup]="formularioActores">
+
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="nombre">
+    <mat-error *ngIf="formularioActores.get('nombre')!.hasError('required')">
+      El nombre es requerido
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Fecha nacimiento. -->
+  <mat-form-field appearance="outline">
+    <mat-label>Fecha de nacimiento</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    @if(formularioActores.get('fechaNacimiento')!.hasError('fechaNoPuedeSerFutura')){
+      <mat-error >
+        {{formularioActores.get('fechaNacimiento')!.getError('fechaNoPuedeSerFutura').mensaje}}
+      </mat-error>
+    }
+
+  </mat-form-field>
+
+  <!-- Componente para cargar imagenes. -->
+   <app-input-img  [urlImagenActual]="modelo?.imagenUrl"  titulo="Foto del Actor" (archivoSeleccionado)="guardarImagen($event)"></app-input-img>
+
+  <!-- Contenedor de botones -->
+   <div class="contenedor-botontes">
+    <button type="submit" [disabled]="!formularioActores.valid" mat-raised-button color="primary" (click)="guardar()">Guardar</button>
+    <button mat-raised-button color="warn" (click)="cancelar()">Cancelar</button>
+   </div>
+
+
+</form>
