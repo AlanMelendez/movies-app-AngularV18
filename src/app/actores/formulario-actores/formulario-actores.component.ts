@@ -38,7 +38,7 @@ export class FormularioActoresComponent {
     fechaNacimiento: new FormControl<Date | null>(null, [Validators.required, fechaNoPuedeSerFutura()]),
     imagen : new FormControl<File | string | null>(null)
   });
-
+// !Comentario prueba
   guardar(){
 
     if(!this.formularioActores.valid){

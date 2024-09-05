@@ -1,0 +1,18 @@
+<form (submit)="guardarCambios()" [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <input matInput placeholder="Nombre" formControlName="nombre">
+    @if(form.get('nombre').hasError('required')){
+      <mat-error>
+        El nombre es requerido
+      </mat-error>
+    }
+  </mat-form-field>
+
+  <div class="contenedor-botones">
+    <button type="submit" mat-flat-button [disabled]="form.invalid" >GUardar Cambios</button>
+    <a mat-stroked-button routerLink="/cines">
+      Cancelar
+    </a>
+  </div>
+
+</form>
