@@ -1,0 +1,32 @@
+<form (submit)="guardarCambios()" [formGroup]="form">
+
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="nombre">
+    <mat-error>{{obtenerErrorCampoTitulo()}}</mat-error>
+  </mat-form-field>
+
+  <!-- Fecha lanzamiento -->
+  <mat-form-field appearance="outline">
+    <mat-label>Fecha lanzamiento</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="fechaLanzamiento">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error>{{obtenerErrorCampoFechaLanzamiento()}}</mat-error>
+  </mat-form-field>
+
+  <!-- Trailer -->
+  <mat-form-field appearance="outline">
+    <mat-label>Trailer</mat-label>
+    <input matInput formControlName="trailer">
+  </mat-form-field>
+
+  <!-- Imagen -->
+  <app-input-img titulo="Poster De Pelicula BB" [urlImagenActual]="modelo.poster" (archivoSeleccionado)="archivoSeleccionado($event)" />
+
+  <!-- Boton guardar -->
+  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Guardar</button>
+  <br>
+  <a mat-button routerLink="/peliculas">Cancelar</a>
+
+</form>
