@@ -1,56 +1,61 @@
-import { Component, EventEmitter, inject, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { primeraLetraMayuscula } from '../../compartidos/functions/validaciones';
+import { primeraLetraMayuscula } from '../../compartidos/funciones/validaciones';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
-import { GeneroCreacionDTO, GeneroDTO } from '../models/generos';
+import { GeneroCreacionDTO, GeneroDTO } from '../generos';
 
 @Component({
   selector: 'app-formulario-genero',
   standalone: true,
-  imports: [MatButtonModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, RouterLink],
+  imports: [MatButtonModule, RouterLink, MatFormFieldModule, ReactiveFormsModule, MatInputModule],
   templateUrl: './formulario-genero.component.html',
   styleUrl: './formulario-genero.component.css'
 })
 export class FormularioGeneroComponent implements OnInit {
-
-  //! Mandamos la información del formulario al componente padre. (Esto es para crear).
-  @Output() posteoDatosFormulario = new EventEmitter<GeneroCreacionDTO>();
-
-  //! Recibimos la información del componente padre (Esto es para editar).
-  @Input() modelo?: GeneroDTO;
-
-
-   ngOnInit(){
-    if(this.modelo !== undefined){
-      //!Si el modelo tiene información, la cargamos en el formulario. (Quiere decir que vamos a editar).
-      this.formGroupLocal.patchValue(this.modelo);
+  ngOnInit(): void {
+    if (this.modelo !== undefined){
+      this.form.patchValue(this.modelo);
     }
   }
 
+  @Input()
+  modelo?: GeneroDTO;
 
-  private formBuilder =  inject(FormBuilder);
+  @Output()
+  posteoFormulario = new EventEmitter<GeneroCreacionDTO>();
 
-  guardarCambios(){
+  private formbuilder = inject(FormBuilder);
 
-    console.log('Guardando...',this.formGroupLocal.value);
+  form = this.formbuilder.group({
+    nombre: ['', {validators: [Validators.required, primeraLetraMayuscula()]}]
+  })
 
-    if(this.formGroupLocal.invalid){
+  obtenerErrorCampoNombre(): string {
+    let nombre = this.form.controls.nombre;
+
+    if (nombre.hasError('required')){
+      return "El campo nombre es requerido";
+    }
+
+    if (nombre.hasError('primeraLetraMayuscula')){
+      return nombre.getError('primeraLetraMayuscula').mensaje;
+    }
+
+    return "";
+
+  }
+
+  guardarCambios() {
+    if (!this.form.valid){
       return;
     }
 
-    //!Parseamos el valor del formulario a un objeto de tipo GeneroCreacionDTO.
-    const genero = this.formGroupLocal.value as GeneroCreacionDTO;
+    const genero = this.form.value as GeneroCreacionDTO;
+    this.posteoFormulario.emit(genero);
 
-    //!Mandamos la información al componente padre.
-    this.posteoDatosFormulario.emit(genero);
   }
-
-  //Creamos nuestro grupo de controles (inputs) del formulario.
-  formGroupLocal= this.formBuilder.group({
-    nombre: ['', [Validators.required, primeraLetraMayuscula()]],
-  })
 
 }

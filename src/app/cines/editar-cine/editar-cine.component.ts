@@ -1,6 +1,6 @@
 import { Component, Input, numberAttribute } from '@angular/core';
-import { CineDTO, CineCreacionDTO } from '../cines';
-import { FormularioCinesComponent } from '../formulario-cines/formulario-cines.component';
+import { CineCreacionDTO, CineDTO } from '../cines';
+import { FormularioCinesComponent } from "../formulario-cines/formulario-cines.component";
 
 @Component({
   selector: 'app-editar-cine',
@@ -12,9 +12,10 @@ import { FormularioCinesComponent } from '../formulario-cines/formulario-cines.c
 export class EditarCineComponent {
   @Input({transform: numberAttribute})
   id!: number;
-  modelo: CineDTO = {id:2,nombre: 'Cine de pruebastl', latitud: 25.56015623318493, longitud: -103.52843291947134};
-//25.56015623318493, -103.52843291947134
+
+  cine: CineDTO = {id: 1, nombre: 'Acrópolis', latitud: 18.46961051555802, longitud: -69.93936129979956}
+
   guardarCambios(cine: CineCreacionDTO){
-    console.log('CREANDO CINE DESDE EDITAR CINE COMPONENT',cine);
+    console.log('editar cine', cine);
   }
 }

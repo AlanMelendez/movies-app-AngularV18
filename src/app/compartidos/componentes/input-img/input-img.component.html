@@ -1,15 +1,14 @@
-<h2>{{titulo}}</h2>
+<h4>{{titulo}}</h4>
 
-<div class="" style="margin: 20px 0px 20px 0px;">
-  <button type="button" mat-raised-button (click)="cargadorArchivo.click()">Cargar Imagen</button>
-  <input type="file" hidden #cargadorArchivo accept="image/*" (change)="cambio($event)">
+<div>
+    <button type="button" mat-raised-button (click)="cargadorArchivo.click()">Seleccionar imagen</button>
+    <input type="file" hidden #cargadorArchivo accept="image/*" (change)="cambio($event)" />
 </div>
 
 <div>
-  @if(imagenBase64){
-    <img [src]="imagenBase64" alt="Imagen cargada" style="width: 300px; height: 300px;">
-  }@else if(urlImagenActual){
-    <!-- Si estamos editando, leemos la imagen url mandada desde el @Input(). -->
-    <img  [src]="urlImagenActual" alt="Imagen cargada" style="width: 300px; height: 300px;">
-  }
+    @if (imagenBase64){
+        <img [src]="imagenBase64" width="169" height="250" />
+    } @else if(urlImagenActual){
+        <img [src]="urlImagenActual" width="169" height="250" />
+    }
 </div>

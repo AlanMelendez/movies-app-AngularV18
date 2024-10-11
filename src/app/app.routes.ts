@@ -28,5 +28,5 @@ export const routes: Routes = [
     {path: 'peliculas/editar/:id', component: EditarPeliculaComponent},
     {path: 'peliculas/filtrar', component: FiltroPeliculasComponent},
     {path: '**', redirectTo: ''},
-
+   
 ];

@@ -10,9 +10,7 @@ import { ActorCreacionDTO } from '../actores';
   styleUrl: './crear-actor.component.css'
 })
 export class CrearActorComponent {
-
-  guardarCambios(actor: ActorCreacionDTO) {
-    console.log('Creando el actor: ',actor);
+  guardarCambios(actor: ActorCreacionDTO){
+    console.log('creando el actor', actor);
   }
-
 }

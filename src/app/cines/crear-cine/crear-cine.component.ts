@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { CineCreacionDTO, CineDTO } from '../cines';
-import { FormularioCinesComponent } from '../formulario-cines/formulario-cines.component';
+import { CineCreacionDTO } from '../cines';
+import { FormularioCinesComponent } from "../formulario-cines/formulario-cines.component";
 
 @Component({
   selector: 'app-crear-cine',
@@ -11,11 +11,8 @@ import { FormularioCinesComponent } from '../formulario-cines/formulario-cines.c
 })
 export class CrearCineComponent {
 
-  constructor() { }
-
-
   guardarCambios(cine: CineCreacionDTO){
-    console.log('CREANDO CINE DESDE CREAR CINE COMPONENT',cine);
+    console.log('creando cine', cine);
   }
 
 }
