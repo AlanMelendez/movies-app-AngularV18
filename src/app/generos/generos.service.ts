@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { GeneroDTO } from './generos';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { Observable } from 'rxjs';
 export class GenerosService {
 
   private httpClient = inject(HttpClient);
+  private urlBase = environment.apiURL + '/generos';
 
   constructor() { }
 
@@ -20,6 +22,6 @@ export class GenerosService {
   }
 
   public obtenerTodos(): Observable<GeneroDTO[]> {
-    return this.httpClient.get<GeneroDTO[]>('http://localhost:5234/api/generos');
+    return this.httpClient.get<GeneroDTO[]>(this.urlBase);
   }
 }
