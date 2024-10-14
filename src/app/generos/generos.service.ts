@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { GeneroDTO } from './generos';
+import { GeneroCreacionDTO, GeneroDTO } from './generos';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
@@ -23,5 +23,9 @@ export class GenerosService {
 
   public obtenerTodos(): Observable<GeneroDTO[]> {
     return this.httpClient.get<GeneroDTO[]>(this.urlBase);
+  }
+
+  public crear(genero: GeneroCreacionDTO): Observable<GeneroDTO> {
+    return this.httpClient.post<GeneroDTO>(this.urlBase, genero);
   }
 }
