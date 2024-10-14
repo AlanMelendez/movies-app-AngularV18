@@ -9,11 +9,12 @@ import { FormularioGeneroComponent } from "../formulario-genero/formulario-gener
 import { GeneroCreacionDTO } from '../generos';
 import { GenerosService } from '../generos.service';
 import { extractErrors } from '../../compartidos/funciones/extractErrors';
+import { MostrarErroresComponent } from "../../compartidos/componentes/mostrar-errores/mostrar-errores.component";
 
 @Component({
   selector: 'app-crear-generos',
   standalone: true,
-  imports: [MatButtonModule, RouterLink, MatFormFieldModule, ReactiveFormsModule, MatInputModule, FormularioGeneroComponent],
+  imports: [MatButtonModule, RouterLink, MatFormFieldModule, ReactiveFormsModule, MatInputModule, FormularioGeneroComponent, MostrarErroresComponent],
   templateUrl: './crear-generos.component.html',
   styleUrl: './crear-generos.component.css'
 })
@@ -33,6 +34,7 @@ export class CrearGenerosComponent {
     this._generosService.crear(genero).subscribe( {
         next: () => this._router.navigate(['/generos']),
         error: (error) => {
+          console.log(error);
           const errores = extractErrors(error);
           this._errores = errores;
         },
