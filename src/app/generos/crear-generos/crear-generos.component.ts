@@ -8,6 +8,7 @@ import { primeraLetraMayuscula } from '../../compartidos/funciones/validaciones'
 import { FormularioGeneroComponent } from "../formulario-genero/formulario-genero.component";
 import { GeneroCreacionDTO } from '../generos';
 import { GenerosService } from '../generos.service';
+import { extractErrors } from '../../compartidos/funciones/extractErrors';
 
 @Component({
   selector: 'app-crear-generos',
@@ -18,13 +19,23 @@ import { GenerosService } from '../generos.service';
 })
 export class CrearGenerosComponent {
 
+  //Services
   private _router = inject(Router);
   private _generosService = inject(GenerosService);
 
+  //Global variables
+  public _errores: string[] = [];
+
+
+
 
   guardarCambios(genero: GeneroCreacionDTO){
-    this._generosService.crear(genero).subscribe(() => {
-      this._router.navigate(['/generos']);
+    this._generosService.crear(genero).subscribe( {
+        next: () => this._router.navigate(['/generos']),
+        error: (error) => {
+          const errores = extractErrors(error);
+          this._errores = errores;
+        },
     });
 
   }
