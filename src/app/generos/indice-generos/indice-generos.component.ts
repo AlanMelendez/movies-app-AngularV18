@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { GeneroDTO } from '../generos';
 import { ListadoGenericoComponent } from '../../compartidos/componentes/listado-generico/listado-generico.component';
 import { MatTableModule } from '@angular/material/table';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-indice-generos',
@@ -28,9 +29,9 @@ export class IndiceGenerosComponent {
    *
    */
   constructor() {
-    this.generosService.obtenerTodos().subscribe((generos) => {
-      this.generos = generos;
-      console.log(generos);
+    this.generosService.obtenerPaginacion({pagina:1, recordsPorPagina:5}).subscribe((response: HttpResponse<GeneroDTO[]>) => {
+      this.generos = response.body as GeneroDTO[];
+      console.log(this.generos);
     });
   }
 }
