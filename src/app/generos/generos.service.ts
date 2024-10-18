@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { GeneroCreacionDTO, GeneroDTO } from './generos';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { PaginacionDTO } from '../compartidos/models/PaginacionDTO';
@@ -23,9 +23,9 @@ export class GenerosService {
     ];
   }
 
-  public obtenerPaginacion(paginacion: PaginacionDTO): Observable<GeneroDTO[]> {
+  public obtenerPaginacion(paginacion: PaginacionDTO): Observable<HttpResponse<GeneroDTO[]>> {
     let queryParams = construirQueryParams(paginacion);
-    return this.httpClient.get<GeneroDTO[]>(this.urlBase, { params: queryParams });
+    return this.httpClient.get<GeneroDTO[]>(this.urlBase, { params: queryParams, observe: 'response' });
   }
 
   public crear(genero: GeneroCreacionDTO): Observable<GeneroDTO> {
