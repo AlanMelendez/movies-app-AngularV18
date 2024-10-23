@@ -1,23 +1,43 @@
-import { Component, Input, numberAttribute } from '@angular/core';
+import { Component, inject, Input, numberAttribute } from '@angular/core';
 import { FormularioGeneroComponent } from "../formulario-genero/formulario-genero.component";
 import { GeneroCreacionDTO, GeneroDTO } from '../generos';
+import { GenerosService } from '../generos.service';
+import { CargandoComponent } from '../../compartidos/componentes/cargando/cargando.component';
+import { Router } from '@angular/router';
+import { extractErrors } from '../../compartidos/funciones/extractErrors';
 
 @Component({
   selector: 'app-editar-genero',
   standalone: true,
-  imports: [FormularioGeneroComponent],
+  imports: [FormularioGeneroComponent, CargandoComponent],
   templateUrl: './editar-genero.component.html',
   styleUrl: './editar-genero.component.css'
 })
 export class EditarGeneroComponent {
-  
+  generosService = inject(GenerosService);
+  router = inject(Router);
   @Input({transform: numberAttribute})
   id!: number;
+  genero?: GeneroDTO;
+  errores: string[] =[];
 
-  genero: GeneroDTO = {id: 1, nombre: 'Comedia'};
+
+  ngOnInit() {
+    this.generosService.obtenerPorId(this.id).subscribe(genero => {
+      this.genero = genero;
+    });
+  }
 
   guardarCambios(genero: GeneroCreacionDTO){
-    console.log('editando el género', genero);
+    this.generosService.actualizar(this.id, genero).subscribe( {
+      next: () => {
+        this.router.navigate(['/generos']);
+      },
+      error: (error) => {
+        const errores = extractErrors(error);
+        this.errores = errores;
+      }
+    });
   }
 
 }
