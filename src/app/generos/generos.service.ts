@@ -39,4 +39,8 @@ export class GenerosService {
   public actualizar(id: number, genero: GeneroCreacionDTO): Observable<void> {
     return this.httpClient.put<void>(`${this.urlBase}/${id}`, genero);
   }
+
+  public eliminar(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.urlBase}/${id}`);
+  }
 }
