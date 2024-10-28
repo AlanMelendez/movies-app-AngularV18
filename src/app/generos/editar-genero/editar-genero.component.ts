@@ -5,11 +5,12 @@ import { GenerosService } from '../generos.service';
 import { CargandoComponent } from '../../compartidos/componentes/cargando/cargando.component';
 import { Router } from '@angular/router';
 import { extractErrors } from '../../compartidos/funciones/extractErrors';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @Component({
   selector: 'app-editar-genero',
   standalone: true,
-  imports: [FormularioGeneroComponent, CargandoComponent],
+  imports: [FormularioGeneroComponent, CargandoComponent, SweetAlert2Module],
   templateUrl: './editar-genero.component.html',
   styleUrl: './editar-genero.component.css'
 })

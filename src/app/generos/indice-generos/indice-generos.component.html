@@ -23,7 +23,7 @@
             <a mat-flat-button [routerLink]="['/generos/editar', genero.id]">
               <mat-icon>Editar</mat-icon>
             </a>
-            <button mat-flat-button [routerLink]="['/generos/eliminar', genero.id]" color="warn">
+            <button mat-flat-button (click)="eliminar(genero.id)" color="warn">
               <mat-icon>Borrar</mat-icon>
             </button>
           </td>

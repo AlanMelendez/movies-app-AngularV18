@@ -8,6 +8,8 @@ import { MatTableModule } from '@angular/material/table';
 import { HttpResponse } from '@angular/common/http';
 import { PaginacionDTO } from '../../compartidos/models/PaginacionDTO';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-indice-generos',
@@ -18,6 +20,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
     ListadoGenericoComponent,
     MatTableModule,
     MatPaginatorModule,
+    SweetAlert2Module
   ],
   templateUrl: './indice-generos.component.html',
   styleUrl: './indice-generos.component.css',
@@ -52,5 +55,34 @@ export class IndiceGenerosComponent {
   actualizarPaginacion(datos: PageEvent) {
     this.paginacion = {pagina: (datos.pageIndex + 1), recordsPorPagina: datos.pageSize};
     this.cargarRegistros(this.paginacion);
+  }
+
+  eliminar(id:number){
+
+    Swal.fire({
+      title: '¿Estas seguro de eliminar este registro?',
+      text: "No podras revertir esta acción!",
+      icon: 'warning',
+      heightAuto: false,
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar!',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+          //Restablecer la paginacion (no dejar tabla vacia)
+          this.paginacion = {pagina: 1, recordsPorPagina: 5};
+          this.generosService.eliminar(id).subscribe(() => {
+            this.cargarRegistros(this.paginacion);
+          });        Swal.fire(
+          'Eliminado!',
+          'El registro ha sido eliminado.',
+          'success'
+        )
+      }
+    });
+
+
   }
 }
