@@ -37,6 +37,7 @@
       [length]="cantidadTotalRegistros"
       [pageSize]="paginacion.recordsPorPagina"
       (page)="actualizarPaginacion($event)"
+      [pageIndex]="paginacion.pagina-1"
       [pageSizeOptions]="[5, 10, 20]"
       showFirstLastButtons
       class="mat-elevation-z8">
