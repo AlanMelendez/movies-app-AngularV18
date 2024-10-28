@@ -71,7 +71,7 @@ export class IndiceGenerosComponent {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-          //Restablecer la paginacion (no dejar tabla vacia)
+          //Restablecer la paginacion (no dejar tabla vacia), dentro del mat-paginator se declara el index menos 1, por que la paginacion empieza en 1, esto para regresar ala pagina 1 al borrar.
           this.paginacion = {pagina: 1, recordsPorPagina: 5};
           this.generosService.eliminar(id).subscribe(() => {
             this.cargarRegistros(this.paginacion);
