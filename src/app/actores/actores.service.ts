@@ -56,6 +56,15 @@ export class ActoresService {
 
   }
 
+  public obtenerPorId(id: number): Observable<ActorDTO> {
+    return this.httpClient.get<ActorDTO>(`${this.urlBase}/${id}`);
+  }
+
+  public editar(id: number, actor: ActorCreacionDTO): Observable<void> {
+    const formData = this.construirFormDate(actor);
+    return this.httpClient.put<void>(`${this.urlBase}/${id}`, formData);
+  }
+
 
 
 
