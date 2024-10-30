@@ -1,8 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { ActorCreacionDTO, ActorDTO } from './actores';
 import { Observable } from 'rxjs';
+import { PaginacionDTO } from '../compartidos/models/PaginacionDTO';
+
+import { construirQueryParams } from '../compartidos/functions/constuirQueryParams';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +21,7 @@ import { Observable } from 'rxjs';
 export class ActoresService {
 
   private httpClient: HttpClient = inject(HttpClient);
+  private urlBase: string = `${environment.apiURL}/actores`;
   /**
    * Crea una nueva instancia de ActoresService.
    *
@@ -45,6 +49,12 @@ export class ActoresService {
    }
 
 
+  obtenerPaginado(paginacion: PaginacionDTO): Observable<HttpResponse<ActorDTO[]>> {
+    let queryParams =  construirQueryParams(paginacion);
+
+    return this.httpClient.get<ActorDTO[]>(`${this.urlBase}`, { observe: 'response', params: queryParams });
+
+  }
 
 
 
