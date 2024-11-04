@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { PaginacionDTO } from '../compartidos/models/PaginacionDTO';
 
 import { construirQueryParams } from '../compartidos/functions/constuirQueryParams';
+import { IServicioCRUD } from '../compartidos/interfaces/IServicioCRUD';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ import { construirQueryParams } from '../compartidos/functions/constuirQueryPara
  *
  * @class
  */
-export class ActoresService {
+export class ActoresService implements IServicioCRUD<ActorDTO,ActorCreacionDTO> {
 
   private httpClient: HttpClient = inject(HttpClient);
   private urlBase: string = `${environment.apiURL}/actores`;

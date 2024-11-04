@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { IServicioCRUD } from '../../interfaces/IServicioCRUD';
 
 @Component({
   selector: 'app-indice-entidad',
@@ -22,7 +23,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
   ],  templateUrl: './indice-entidad.component.html',
   styleUrl: './indice-entidad.component.css'
 })
-export class IndiceEntidadComponent<ALANDTO> {
+export class IndiceEntidadComponent<Generico, GenericoCreacionDTO> {
 
   @Input({required:true}) titulo!:string;
   @Input({required:true}) rutaCrear!:string;
@@ -31,10 +32,10 @@ export class IndiceEntidadComponent<ALANDTO> {
   //==========================================================
 
   paginacion: PaginacionDTO = {pagina: 1, recordsPorPagina: 10};
-  entidades: ALANDTO[]
+  entidades: Generico[]
   cantidadTotalRegistros: number = 0;
   //==========================================================
-  servicioCRUD = inject(SERVICIO_CRUD_TOKEN) as any;
+  servicioCRUD = inject(SERVICIO_CRUD_TOKEN) as IServicioCRUD<Generico, GenericoCreacionDTO>;
 
  //==========================================================
 
@@ -56,8 +57,8 @@ export class IndiceEntidadComponent<ALANDTO> {
   
   cargarRegistros(): void {
     this.servicioCRUD.obtenerPaginacion(this.paginacion)
-      .subscribe((respuesta: HttpResponse<ALANDTO[]>) => {
-        this.entidades = respuesta.body as ALANDTO[];
+      .subscribe((respuesta: HttpResponse<Generico[]>) => {
+        this.entidades = respuesta.body as Generico[];
         const header = respuesta.headers.get('cantidad-total-resigstros') as string;
         this.cantidadTotalRegistros = parseInt(header,10);
         console.log(respuesta);

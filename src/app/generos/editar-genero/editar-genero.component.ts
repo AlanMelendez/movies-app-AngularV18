@@ -30,7 +30,7 @@ export class EditarGeneroComponent {
   }
 
   guardarCambios(genero: GeneroCreacionDTO){
-    this.generosService.actualizar(this.id, genero).subscribe( {
+    this.generosService.editar(this.id, genero).subscribe( {
       next: () => {
         this.router.navigate(['/generos']);
       },
