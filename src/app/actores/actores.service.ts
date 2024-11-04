@@ -49,7 +49,7 @@ export class ActoresService {
    }
 
 
-  obtenerPaginado(paginacion: PaginacionDTO): Observable<HttpResponse<ActorDTO[]>> {
+  obtenerPaginacion(paginacion: PaginacionDTO): Observable<HttpResponse<ActorDTO[]>> {
     let queryParams =  construirQueryParams(paginacion);
 
     return this.httpClient.get<ActorDTO[]>(`${this.urlBase}`, { observe: 'response', params: queryParams });
@@ -63,6 +63,10 @@ export class ActoresService {
   public editar(id: number, actor: ActorCreacionDTO): Observable<void> {
     const formData = this.construirFormDate(actor);
     return this.httpClient.put<void>(`${this.urlBase}/${id}`, formData);
+  }
+
+  public eliminar(id:number){
+    return this.httpClient.delete<void>(`${this.urlBase}/${id}`);
   }
 
 

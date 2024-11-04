@@ -8,50 +8,19 @@ import { ActorDTO } from '../actores';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { ListadoGenericoComponent } from '../../compartidos/componentes/listado-generico/listado-generico.component';
+import { SERVICIO_CRUD_TOKEN } from '../../compartidos/proveedores/proveedores';
+import { IndiceEntidadComponent } from "../../compartidos/componentes/indice-entidad/indice-entidad.component";
 
 @Component({
   selector: 'app-indice-actores',
   standalone: true,
-  imports: [RouterLink, MatButtonModule, MatTableModule, MatPaginatorModule, ListadoGenericoComponent],
+  imports: [RouterLink, MatButtonModule, MatTableModule, MatPaginatorModule, ListadoGenericoComponent, IndiceEntidadComponent],
   templateUrl: './indice-actores.component.html',
-  styleUrl: './indice-actores.component.css'
+  styleUrl: './indice-actores.component.css',
+  providers: [
+    {provide: SERVICIO_CRUD_TOKEN, useClass: ActoresService}
+  ]
 })
 export class IndiceActoresComponent {
 
-  actoresService = inject(ActoresService);
-  paginacion: PaginacionDTO = {
-    pagina: 1,
-    recordsPorPagina: 10
-  };
-  cantidadTotalRegistros: number = 0;
-  actores: ActorDTO[] = [];
-  displayedColumns: string[] = ['id', 'nombre', 'acciones'];
-
-
-  /**
-   *
-   */
-  constructor() {
-    this.cargarRegistros();
-  }
-
-
-  cargarRegistros(): void {
-    this.actoresService.obtenerPaginado(this.paginacion)
-      .subscribe((respuesta: HttpResponse<ActorDTO[]>) => {
-        this.actores = respuesta.body as ActorDTO[];
-        const header = respuesta.headers.get('cantidad-total-resigstros') as string;
-        this.cantidadTotalRegistros = parseInt(header,10);
-        console.log(respuesta);
-      });
-  }
-
-  actualizarPaginacion(datos: PageEvent){
-    this.paginacion = { pagina: datos.pageIndex + 1, recordsPorPagina: datos.pageSize };
-    this.cargarRegistros();
-  }
-
-  eliminar(id: number): void {
-    console.log('Eliminar');
-  }
 }

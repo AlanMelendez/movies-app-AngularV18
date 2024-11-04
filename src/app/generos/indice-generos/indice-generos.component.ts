@@ -10,6 +10,8 @@ import { PaginacionDTO } from '../../compartidos/models/PaginacionDTO';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { SwalComponent, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import Swal from 'sweetalert2';
+import { IndiceEntidadComponent } from "../../compartidos/componentes/indice-entidad/indice-entidad.component";
+import { SERVICIO_CRUD_TOKEN } from '../../compartidos/proveedores/proveedores';
 
 @Component({
   selector: 'app-indice-generos',
@@ -20,69 +22,17 @@ import Swal from 'sweetalert2';
     ListadoGenericoComponent,
     MatTableModule,
     MatPaginatorModule,
-    SweetAlert2Module
-  ],
+    SweetAlert2Module,
+    IndiceEntidadComponent
+],
   templateUrl: './indice-generos.component.html',
   styleUrl: './indice-generos.component.css',
+  providers: [
+    {provide: SERVICIO_CRUD_TOKEN, useClass: GenerosService,}
+  ]
 })
 export class IndiceGenerosComponent {
-  generosService = inject(GenerosService);
-  generos: GeneroDTO[] = [];
-
-  // Paginacion por defecto
-  paginacion: PaginacionDTO = {pagina: 1,recordsPorPagina: 5};
-  cantidadTotalRegistros: number;
-
-  displayedColumns = ['id', 'nombre', 'acciones'];
-
-  /**
-   *
-   */
-  constructor() {
-    this.cargarRegistros(this.paginacion);
-  }
-
-  cargarRegistros(paginacion: PaginacionDTO) {
-    this.generosService.obtenerPaginacion(paginacion).subscribe((response: HttpResponse<GeneroDTO[]>) => {
-      this.generos = response.body as GeneroDTO[];
-
-      const header = response.headers.get('cantidad-total-registros') as string;
-      this.cantidadTotalRegistros = parseInt(header);
-      console.log(this.generos);
-    });
-  }
-
-  actualizarPaginacion(datos: PageEvent) {
-    this.paginacion = {pagina: (datos.pageIndex + 1), recordsPorPagina: datos.pageSize};
-    this.cargarRegistros(this.paginacion);
-  }
-
-  eliminar(id:number){
-
-    Swal.fire({
-      title: '¿Estas seguro de eliminar este registro?',
-      text: "No podras revertir esta acción!",
-      icon: 'warning',
-      heightAuto: false,
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar!',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
-      if (result.isConfirmed) {
-          //Restablecer la paginacion (no dejar tabla vacia), dentro del mat-paginator se declara el index menos 1, por que la paginacion empieza en 1, esto para regresar ala pagina 1 al borrar.
-          this.paginacion = {pagina: 1, recordsPorPagina: 5};
-          this.generosService.eliminar(id).subscribe(() => {
-            this.cargarRegistros(this.paginacion);
-          });        Swal.fire(
-          'Eliminado!',
-          'El registro ha sido eliminado.',
-          'success'
-        )
-      }
-    });
 
 
-  }
+ 
 }
