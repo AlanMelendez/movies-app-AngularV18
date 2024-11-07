@@ -15,6 +15,4 @@ export interface IServicioCRUD<Generico, GenericoCreacionDTO>{
      
     eliminar(id:number): Observable<any>;
 
-
-
 }
