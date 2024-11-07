@@ -32,19 +32,26 @@ export class EditarEntidadComponent<Generico, GenericoCreacionDTO> {
 
   errores:string[] = [];
 
+  ngOnInit(): void {
+    this.servicioCRUD.obtenerPorId(this.id).subscribe(
+      (entidad:any)=>{
+        this.cargarFormulario(entidad)
+      }
+    )
+  }
 
   ngAfterViewInit(): void {
 
-   this.componentRef= this.contenedorFormulario.createComponent(this.formulario);
-
-   this.componentRef.instance.posteoFormulario.subscribe((param:any)=>{
-    console.log(param)
-   })
+  
 
   }
 
-  cargarFormulario(formulario:any){
-    
+  cargarFormulario(entidad:any){
+    this.componentRef= this.contenedorFormulario.createComponent(this.formulario);
+    this.componentRef.instance.modelo=entidad
+    this.componentRef.instance.posteoFormulario.subscribe((entity:any)=>{
+     this.guardarCambiosEvent(entity)
+    })
   }
 
   guardarCambiosEvent(entidad:GenericoCreacionDTO){
